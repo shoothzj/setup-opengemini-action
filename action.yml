@@ -1,0 +1,16 @@
+name: 'Setup OpenGemini Action'
+description: 'Setup a OpenGemini Server'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: start opengemini
+      run: bash $GITHUB_ACTION_PATH/start_opengemini.sh
+      shell: bash
+    - name: wait opengemini start
+      uses: shoothzj/host-available-check-action@v1
+      with:
+        check_type: 'HTTP'
+        check_timeout: 30
+        check_http_port: 8086
+        check_http_path: '/ping'
